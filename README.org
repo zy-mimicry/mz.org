@@ -1,1 +1,2 @@
-# mz.org
+* MZ org-mode Notes
+
