@@ -1,0 +1,100 @@
+* MySQL DB
+
+** Configuration
+
+Location of config-file : /etc/my.cnf or /etc/mysql/my.cnf
+
+SELF: cat /etc/mysql/my.cnf
+
+Chinese Support:
+[client]
+default-character-set = utf8
+
+[mysqld]
+default-storage-engine = INNODB
+character-set-server = utf8
+collation-server = utf8_general_ci
+
+
+
+** Usage
+
+login mysql: mysql -u root -p 1234
+
+create database : create database mydb;
+
+jump to database : use mydb;
+
+create the table of 'mydb' database: create table mytable (name varchar(20), id char(2));
+
+show tables : show tables;
+
+show description: describe mytable;
+
+insert data: insert into mytable values ('rex', 'a');
+
+query and select: select * from mytable;
+
+
+** Install (ubuntu)
+
+sudo apt-get install mysql-server mysql-client
+
+RECORD your password for root ~
+
+
+** Update to Special Version (ubuntu)
+
+
+>> mysql  Ver 14.14 Distrib 5.7.24, for Linux (x86_64) using  EditLine wrapper
+
+
+# configure mysql-apt and update
+sudo wget https://dev.mysql.com/get/mysql-apt-config_0.8.1-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.1-1_all.deb　＃install 5.7
+sudo apt-get update
+
+# install the new mysql version and update doc.
+sudo apt-get install mysql-server
+sudo mysql_upgrade -uroot -p
+
+# restart mysql and check all databases.
+sudo service mysql restart
+mysqlcheck -uroot -p --all-databases
+
+# modify the user-directory and remote login-configuration
+sudo service mysql stop
+sudo usermod -d /var/lib/mysql/ mysql
+sudo service mysql start
+
+# 註釋掉bind-address = 127.0.0.1這一行並保存
+sudo vim /etc/mysql/mysql.conf.d/mysqld.conf
+
+sudo service mysql restart
+
+# check version.
+mysql --version
+netstat -anp | grep 'mysql'
+
+# attach host
+mysql -h ip -u root -p
+
+** Backup DB
+
+
+mysqldump -u root -p --quick --all-databases --flush-logs --single-transaction > healthy.sql
+
+
+** Restore DB
+
+mysql -u root -p < healthy.sql
+
+
+
+** SCP
+
+scp ./golden.sql rex@cnshz-ed-svr098:/home/rex/tmp
+
+** Docker
+
+Docker version 18.06.1-ce, build e68fc7a

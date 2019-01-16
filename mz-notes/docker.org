@@ -1,0 +1,33 @@
+* Docker
+
+** Install (ubuntu)
+
+
+# Add GPG key for docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# check GPG key
+sudo apt-key fingerprint 0EBFCD88
+
+
+# update docker apt-source-list
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+# update source
+sudo apt-get update
+
+# check docker-ce in cache of package source 
+apt-cache madison docker-ce
+
+# install
+sudo apt-get install docker-ce
+
+# check version
+
+docker -v
+
+# special version
+Docker version 18.06.1-ce, build e68fc7a
